@@ -148,18 +148,7 @@ error404Html = '''<!DOCTYPE html>
 def error404(error):
     return template(error404Html)
 
-'''@route('/show/product')
-def show():
-    conn = ibm_db.connect("DATABASE="";HOSTNAME="";PORT="";PROTOCOL=TCPIP;UID="";PWD="";Security=SSL;","","")
 
-    sql = "SELECT * FROM PRODUCT"
-
-    stmt = ibm_db.exec_immediate(conn, sql)
-
-    while ibm_db.fetch_row(stmt) != False:
-        print("The Product number ish : ", ibm_db.result(stmt, 0))
-        print("The name is : ", ibm_db.result(stmt, "NOM"))
-    return template(error404Html)'''
 
 @route('/<filename>')
 def server_static(filename):
@@ -172,7 +161,21 @@ def homepage():
 
 @route('/product')
 def product():
-    return template('product.html')
+  db = show()
+  print(db)
+  return template('product',db=db)
+
+def show():
+    test=[]
+    conn = ibm_db.connect("DATABASE=BLUDB;HOSTNAME=dashdb-txn-sbox-yp-lon02-04.services.eu-gb.bluemix.net;PORT=50001;PROTOCOL=TCPIP;UID=mgz19313;PWD=xpt56-9mzt1cvs9l;Security=SSL;","","")
+    sql = "SELECT * FROM PRODUCT"
+    stmt = ibm_db.exec_immediate(conn, sql)
+    while ibm_db.fetch_row(stmt) != False:
+        mon_tuples = (ibm_db.result(stmt, "NOM"),
+          ibm_db.result(stmt, "DESCRIPTION"),
+          ibm_db.result(stmt, "PRIX"))
+        test.append(mon_tuples)
+    return test
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 80))

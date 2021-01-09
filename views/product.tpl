@@ -5,15 +5,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css"
-          href="https://cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.8/datatables.min.css"/>
-    <script type="text/javascript"
-            src="https://cdn.datatables.net/r/bs-3.3.5/jqc-1.11.3,dt-1.10.8/datatables.min.js"></script>
 
     <!-- Bootstrap core CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-
+          <link href="cover.css" rel="stylesheet">
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -34,18 +30,34 @@
     <link href="cover.css" rel="stylesheet">
 </head>
 <body>
+    
 <br/><br/>
 <div class="container">
     <h1 align="center"><a href="/" >CloudFY</a></h1><br/>
-        <table id="data-table" class="table table-striped table-dark">
-            <thead class="thead-light">
+    <table id="data-table" class="table table-striped table-dark">
+        <thead class="thead-light">
             <tr>
                 <th>Nom</th>
                 <th>Description</th>
                 <th>Prix</th>
             </tr>
-            </thead>
-        </table>
+        </thead>
+        <tbody>
+        %for column in db:
+            <tr>
+              <td>
+                {{column[0]}}
+              </td>
+              <td>
+                  {{column[1]}}
+              </td>
+              <td>
+                  {{column[2]}}
+              </td>
+              </tr>
+                  %end
+                </tbody>
+            </table>
 </div>
   <script>
   window.watsonAssistantChatOptions = {
@@ -62,16 +74,3 @@
 </script>
 </body>
 </html>
-<script>
-    $(document).ready(function () {
-        $('#data-table').DataTable({
-            "ajax": "MGZ19313_PRODUCT.json",
-            "columns": [
-                {"data": "NOM"},
-                {"data": "DESCRIPTION"},
-                {"data": "PRIX"}
-            ]
-
-        });
-    });
-</script>
