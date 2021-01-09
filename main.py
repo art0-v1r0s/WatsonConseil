@@ -152,23 +152,6 @@ def error404(error):
     return template(error404Html)
 
 
-@route('/show/user')
-def show():
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="root",
-        database="rss"
-    )
-    mycursor = mydb.cursor()
-
-    mycursor.execute('SELECT * FROM user ')
-
-    row = mycursor.fetchall()
-
-    if row:
-        return template('hello {{user}}', user=row)
-    return HTTPError(404, "Page not found")
 
 
 @route('/<filename>')
@@ -182,5 +165,5 @@ def homepage():
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 8080))
-    run(host='localhost', port=port, debug=True)
+    port = int(os.environ.get('PORT', 80))
+    run(host='0.0.0.0', port=port, debug=True)
