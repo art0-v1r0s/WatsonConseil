@@ -1,6 +1,6 @@
 import os
 from bottle import route, run, template, static_file, error, get, post, request
-
+import ibm_db
 
 error404Html = '''<!DOCTYPE html>
                 <html lang="en">
@@ -143,16 +143,23 @@ error404Html = '''<!DOCTYPE html>
                 </html>'''
 
 
-# @route('/')
-# def index():
-#     return template(index_html, author='Real Python')
 
 @error(404)
 def error404(error):
     return template(error404Html)
 
+'''@route('/show/product')
+def show():
+    conn = ibm_db.connect("DATABASE="";HOSTNAME="";PORT="";PROTOCOL=TCPIP;UID="";PWD="";Security=SSL;","","")
 
+    sql = "SELECT * FROM PRODUCT"
 
+    stmt = ibm_db.exec_immediate(conn, sql)
+
+    while ibm_db.fetch_row(stmt) != False:
+        print("The Product number ish : ", ibm_db.result(stmt, 0))
+        print("The name is : ", ibm_db.result(stmt, "NOM"))
+    return template(error404Html)'''
 
 @route('/<filename>')
 def server_static(filename):
@@ -163,7 +170,10 @@ def server_static(filename):
 def homepage():
     return template('index.html')
 
+@route('/product')
+def product():
+    return template('product.html')
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 80))
-    run(host='0.0.0.0', port=port, debug=True)
+    run(host='0.0.0.0', port=port)
